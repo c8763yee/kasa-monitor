@@ -1,0 +1,58 @@
+{
+    "slot_id": 15.0,
+    "current_ma": 170.0,
+    "voltage_mv": 114564,
+    "power_mw": 6855.0,
+    "total_wh": 8507.0,
+    "err_code": 0.0,
+    "childs": {
+        "PC": {
+            "slot_id": 0,
+            "current_ma": 79,
+            "voltage_mv": 114380,
+            "power_mw": 2014,
+            "total_wh": 5832,
+            "err_code": 0
+        },
+        "Screen 2(FHD)": {
+            "slot_id": 1,
+            "current_ma": 0,
+            "voltage_mv": 113456,
+            "power_mw": 0,
+            "total_wh": 576,
+            "err_code": 0
+        },
+        "Screen 1(2K)": {
+            "slot_id": 2,
+            "current_ma": 0,
+            "voltage_mv": 114045,
+            "power_mw": 0,
+            "total_wh": 1031,
+            "err_code": 0
+        },
+        "Fan": {
+            "slot_id": 3,
+            "current_ma": 0,
+            "voltage_mv": 115170,
+            "power_mw": 0,
+            "total_wh": 492,
+            "err_code": 0
+        },
+        "Phone-charge": {
+            "slot_id": 4,
+            "current_ma": 0,
+            "voltage_mv": 115140,
+            "power_mw": 0,
+            "total_wh": 100,
+            "err_code": 0
+        },
+        "Pi": {
+            "slot_id": 5,
+            "current_ma": 91,
+            "voltage_mv": 115193,
+            "power_mw": 4841,
+            "total_wh": 476,
+            "err_code": 0
+        }
+    }
+}

@@ -1,0 +1,9 @@
+services:
+  kasa:
+    build: .
+    image: kasa
+    container_name: kasa
+    environment:
+      - MQTT_HOST=172.17.0.1
+      - MQTT_PORT=1883
+    restart: always
