@@ -18,7 +18,7 @@ class BaseTable(Base):
 class Emeter(BaseTable):
     __abstract__ = True
     name = Column(String(255), nullable=False)
-    is_on = Column(Boolean, nullable=False)
+    status = Column(Boolean, nullable=False)
     voltage = Column(Float(3, 3), nullable=False)
     current = Column(Float(3, 3), nullable=False)
     power = Column(Float(3, 3), nullable=False)

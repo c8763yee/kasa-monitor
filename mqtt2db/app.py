@@ -58,7 +58,7 @@ def on_message(client, userdata, message):
         session.add(
             table(
                 name=emeter.name,
-                is_on=emeter.is_on,
+                status=emeter.status,
                 voltage=emeter.V,
                 current=emeter.A,
                 power=emeter.W,

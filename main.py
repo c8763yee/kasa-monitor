@@ -193,7 +193,7 @@ async def main():
         json.dumps(
             {
                 "name": HS300.alias,
-                "is_on": HS300.is_on,
+                "status": HS300.is_on,
                 "V": strip_emeter.voltage,
                 "W": strip_emeter.power,
                 "A": strip_emeter.current,
@@ -210,7 +210,7 @@ async def main():
             json.dumps(
                 {
                     "name": child.alias,
-                    "is_on": child.is_on,
+                    "status": child.is_on,
                     "V": child_emeter.voltage,
                     "W": child_emeter.power,
                     "A": child_emeter.current,

@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class EmeterModel(BaseModel):
     name: str
-    is_on: bool
+    status: bool
     V: float
     A: float
     W: float
