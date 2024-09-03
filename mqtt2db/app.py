@@ -2,21 +2,19 @@ import datetime
 import json
 import os
 
-from dotenv import load_dotenv
-from paho.mqtt import client as mqtt
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
 from db_models import (
     HS300,
     PC,
-    ScreenFHD,
-    Screen2K,
     NintendoSwitch,
     PhoneCharge,
     RaspberryPi,
+    Screen2K,
+    ScreenFHD,
+    engine,
 )
-from data_models import EmeterModel
+from dotenv import load_dotenv
+from paho.mqtt import client as mqtt
+from sqlmodel import Session
 
 load_dotenv(override=True)
 tz_delta = datetime.timedelta(hours=0)
@@ -26,9 +24,6 @@ tz = datetime.timezone(tz_delta)
 def now():
     return datetime.datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
 
-
-engine = create_engine(os.getenv("SQL_SERVER"), echo=True)
-Session = sessionmaker(bind=engine)
 
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 
@@ -44,28 +39,22 @@ TOPIC_MAPPING = {
 
 
 @mqttc.connect_callback()
-def on_connect(client, userdata, flags, reason_code, properties):
+def on_connect(
+    client: mqtt.Client, userdata: dict, flags: dict, reason_code: int, properties: dict
+):
     print(f"=============== {'Connect':^15} ===============")
     client.subscribe("hs300/emeter/#")
 
 
 @mqttc.message_callback()
-def on_message(client, userdata, message):
+def on_message(client: mqtt.Client, userdata: dict, message: mqtt.MQTTMessage):
     data = json.loads(message.payload.decode("utf-8"))
-    emeter = EmeterModel(**data)
-    with Session.begin() as session:
-        table = TOPIC_MAPPING[message.topic]
-        session.add(
-            table(
-                name=emeter.name,
-                status=emeter.status,
-                voltage=emeter.V,
-                current=emeter.A,
-                power=emeter.W,
-                total_wh=emeter.total_wh,
-                create_time=now(),
-            )
-        )
+    table = TOPIC_MAPPING[message.topic]
+    emeter = table(**data)
+    with Session(engine) as session:
+        session.add(emeter)
+
+        session.commit()
 
 
 if __name__ == "__main__":

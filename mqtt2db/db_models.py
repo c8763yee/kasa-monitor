@@ -2,50 +2,49 @@ import datetime
 import os
 
 from dotenv import load_dotenv
-from sqlalchemy import TIMESTAMP, Boolean, Column, Float, Integer, String, create_engine
-from sqlalchemy.orm import declarative_base
-
-Base = declarative_base()
+from sqlmodel import Field, SQLModel
 
 
-class BaseTable(Base):
+class BaseTable(SQLModel):
     __abstract__ = True
-    __table_args__ = {"mysql_charset": "utf8mb4"}
-    ID = Column(Integer, nullable=False, primary_key=True)
-    create_time = Column(TIMESTAMP, nullable=False, default=datetime.datetime.now())
+    __table_args__ = {"mysql_charset": "utf8mb4", "extend_existing": True}
+    ID: int = Field(default=None, primary_key=True)
+    create_time: datetime.datetime = Field(
+        default=datetime.datetime.now(), primary_key=True
+    )
 
 
 class Emeter(BaseTable):
     __abstract__ = True
-    name = Column(String(255), nullable=False)
-    status = Column(Boolean, nullable=False)
-    voltage = Column(Float(3, 3), nullable=False)
-    current = Column(Float(3, 3), nullable=False)
-    power = Column(Float(3, 3), nullable=False)
-    total_wh = Column(Float, nullable=False)
+    name: str = Field(nullable=False)
+    status: bool = Field(nullable=False)
+    voltage: float = Field(nullable=False)
+    current: float = Field(nullable=False)
+    power: float = Field(nullable=False)
+    total_wh: float = Field(nullable=False)
 
 
-class HS300(Emeter):
+class HS300(Emeter, table=True):
     __tablename__ = "hs300"
 
 
-class PC(Emeter):
+class PC(Emeter, table=True):
     __tablename__ = "pc"
 
 
-class ScreenFHD(Emeter):
+class ScreenFHD(Emeter, table=True):
     __tablename__ = "screen_fhd"
 
 
-class Screen2K(Emeter):
+class Screen2K(Emeter, table=True):
     __tablename__ = "screen_2k"
 
 
-class NintendoSwitch(Emeter):
-    __tablename__ = "nintendo_switch"
+class NintendoSwitch(Emeter, table=True):
+    __tablename__ = "switch"
 
 
-class PhoneCharge(Emeter):
+class PhoneCharge(Emeter, table=True):
     __tablename__ = "phone"
 
 
