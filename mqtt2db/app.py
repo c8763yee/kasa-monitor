@@ -1,5 +1,4 @@
 import datetime
-import json
 import os
 
 from db_models import (
@@ -14,7 +13,7 @@ from db_models import (
 )
 from dotenv import load_dotenv
 from paho.mqtt import client as mqtt
-from sqlmodel import Session
+from sqlmodel import Session, SQLModel
 
 load_dotenv(override=True)
 tz_delta = datetime.timedelta(hours=0)
@@ -44,14 +43,15 @@ def on_connect(
 ):
     print(f"=============== {'Connect':^15} ===============")
     client.subscribe("hs300/emeter/#")
+    SQLModel.metadata.create_all(engine)
 
 
 @mqttc.message_callback()
 def on_message(client: mqtt.Client, userdata: dict, message: mqtt.MQTTMessage):
-    data = json.loads(message.payload.decode("utf-8"))
+    print(message.payload.decode("utf-8"))
     table = TOPIC_MAPPING[message.topic]
-    emeter = table(**data)
     with Session(engine) as session:
+        emeter = table.model_validate_json(message.payload.decode("utf-8"))
         session.add(emeter)
 
         session.commit()
