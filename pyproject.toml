@@ -20,6 +20,7 @@ python-dotenv = "1.0.1"
 sqlalchemy = "2.0.28"
 typing-extensions = "4.10.0"
 pydantic = "^2.7.4"
+sqlmodel = "^0.0.22"
 
 [build-system]
 requires = ["poetry-core"]
