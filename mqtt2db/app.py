@@ -48,13 +48,13 @@ def on_connect(
 
 @mqttc.message_callback()
 def on_message(client: mqtt.Client, userdata: dict, message: mqtt.MQTTMessage):
-    print(message.payload.decode("utf-8"))
     table = TOPIC_MAPPING[message.topic]
     with Session(engine) as session:
         emeter = table.model_validate_json(message.payload.decode("utf-8"))
         session.add(emeter)
 
         session.commit()
+        session.refresh(emeter)
 
 
 if __name__ == "__main__":

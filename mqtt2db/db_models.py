@@ -8,7 +8,7 @@ from sqlmodel import Field, SQLModel, create_engine
 class BaseTable(SQLModel):
     __abstract__ = True
     __table_args__ = {"mysql_charset": "utf8mb4", "extend_existing": True}
-    ID: int | None = Field(default=None, primary_key=True)
+    ID: int = Field(primary_key=True)
     create_time: datetime.datetime = Field(default=datetime.datetime.now())
 
 
