@@ -46,7 +46,7 @@ class PhoneCharge(Emeter, table=True):
     __tablename__ = "phone"
 
 
-class RaspberryPi(Emeter):
+class RaspberryPi(Emeter, table=True):
     __tablename__ = "pi"
 
 
