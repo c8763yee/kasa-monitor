@@ -69,7 +69,9 @@ class SentenceItem(BaseSQLModel, table=True):
 # --------------- Kasa --------------- #
 class Emeter(BaseSQLModel):
     __abstract__ = True
-    create_time: datetime.datetime = Field(default_factory=datetime.datetime.now)
+    create_time: datetime.datetime = Field(
+        default_factory=lambda: datetime.datetime.now(datetime.timezone.utc)
+    )
     name: str = Field(nullable=False)
     status: bool = Field(nullable=False)
     voltage: float = Field(nullable=False, alias="V")
