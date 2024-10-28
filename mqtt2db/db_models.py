@@ -3,13 +3,14 @@ import os
 from pathlib import Path
 from textwrap import dedent
 
+from dotenv import load_dotenv
 from pydantic import ConfigDict, computed_field
 from sqlmodel import Field, SQLModel, create_engine
 
-from dotenv import load_dotenv
 load_dotenv(override=True)
 
 engine = create_engine(os.environ.get("SQL_SERVER"), echo=False)
+
 
 # --------------- SQL Model --------------- #
 class BaseSQLModel(SQLModel):
@@ -68,7 +69,7 @@ class SentenceItem(BaseSQLModel, table=True):
 # --------------- Kasa --------------- #
 class Emeter(BaseSQLModel):
     __abstract__ = True
-    create_time: datetime.datetime = Field(default=datetime.datetime.now())
+    create_time: datetime.datetime = Field(default_factory=datetime.datetime.now)
     name: str = Field(nullable=False)
     status: bool = Field(nullable=False)
     voltage: float = Field(nullable=False, alias="V")
